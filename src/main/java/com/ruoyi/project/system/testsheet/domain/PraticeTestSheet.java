@@ -1,5 +1,7 @@
 package com.ruoyi.project.system.testsheet.domain;
 
+import java.util.Date;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.framework.aspectj.lang.annotation.Excel;
@@ -9,7 +11,7 @@ import com.ruoyi.framework.web.domain.BaseEntity;
  * 练习试卷管理对象 pratice_test_sheet
  * 
  * @author ruoyi
- * @date 2022-11-18
+ * @date 2022-11-21
  */
 public class PraticeTestSheet extends BaseEntity
 {
@@ -18,17 +20,22 @@ public class PraticeTestSheet extends BaseEntity
     /** 编号 */
     private String id;
 
-    /** 考卷名称 */
-    @Excel(name = "考卷名称")
+    /** 题目 */
+    @Excel(name = "题目")
     private String title;
 
-    /** 面向对象 */
-    @Excel(name = "面向对象")
+    /** 考试类型 */
+    @Excel(name = "考试类型")
     private String type;
 
     /** 内容 */
     @Excel(name = "内容")
     private String content;
+
+    /** 考试时间 */
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    @Excel(name = "考试时间", width = 30, dateFormat = "yyyy-MM-dd")
+    private Date date;
 
     public void setId(String id)
     {
@@ -66,6 +73,15 @@ public class PraticeTestSheet extends BaseEntity
     {
         return content;
     }
+    public void setDate(Date date)
+    {
+        this.date = date;
+    }
+
+    public Date getDate()
+    {
+        return date;
+    }
 
     @Override
     public String toString() {
@@ -74,6 +90,7 @@ public class PraticeTestSheet extends BaseEntity
             .append("title", getTitle())
             .append("type", getType())
             .append("content", getContent())
+            .append("date", getDate())
             .toString();
     }
 }

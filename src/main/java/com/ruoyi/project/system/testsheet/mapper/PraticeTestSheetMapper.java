@@ -7,7 +7,7 @@ import com.ruoyi.project.system.testsheet.domain.PraticeTestSheet;
  * 练习试卷管理Mapper接口
  * 
  * @author ruoyi
- * @date 2022-11-18
+ * @date 2022-11-21
  */
 public interface PraticeTestSheetMapper 
 {

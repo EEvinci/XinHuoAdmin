@@ -9,18 +9,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="title"    column="title"    />
         <result property="type"    column="type"    />
         <result property="content"    column="content"    />
+        <result property="date"    column="date"    />
     </resultMap>
 
     <sql id="selectPraticeTestSheetVo">
-        select id, title, type, content from pratice_test_sheet
+        select id, title, type, content, date from pratice_test_sheet
     </sql>
 
     <select id="selectPraticeTestSheetList" parameterType="PraticeTestSheet" resultMap="PraticeTestSheetResult">
         <include refid="selectPraticeTestSheetVo"/>
         <where>  
-            <if test="title != null  and title != ''"> and title = #{title}</if>
-            <if test="type != null  and type != ''"> and type = #{type}</if>
-            <if test="content != null  and content != ''"> and content = #{content}</if>
+            <if test="title != null  and title != ''"> and title like concat('%', #{title}, '%')</if>
+            <if test="type != null  and type != ''"> and type like concat('%', #{type}, '%')</if>
+            <if test="content != null  and content != ''"> and content like concat('%', #{content}, '%')</if>
+            <if test="date != null "> and date = #{date}</if>
         </where>
     </select>
     
@@ -36,12 +38,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="title != null">title,</if>
             <if test="type != null">type,</if>
             <if test="content != null">content,</if>
+            <if test="date != null">date,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="id != null">#{id},</if>
             <if test="title != null">#{title},</if>
             <if test="type != null">#{type},</if>
             <if test="content != null">#{content},</if>
+            <if test="date != null">#{date},</if>
          </trim>
     </insert>
 
@@ -51,6 +55,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="title != null">title = #{title},</if>
             <if test="type != null">type = #{type},</if>
             <if test="content != null">content = #{content},</if>
+            <if test="date != null">date = #{date},</if>
         </trim>
         where id = #{id}
     </update>

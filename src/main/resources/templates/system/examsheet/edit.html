@@ -9,7 +9,7 @@
         <form class="form-horizontal m" id="form-examsheet-edit" th:object="${examTestSheet}">
             <input name="id" th:field="*{id}" type="hidden">
             <div class="form-group">    
-                <label class="col-sm-3 control-label">考卷名称：</label>
+                <label class="col-sm-3 control-label">题目：</label>
                 <div class="col-sm-8">
                     <input name="title" th:field="*{title}" class="form-control" type="text">
                 </div>
@@ -17,14 +17,14 @@
             <div class="form-group">    
                 <label class="col-sm-3 control-label">面向对象：</label>
                 <div class="col-sm-8">
-                    <input name="object" th:field="*{object}" class="form-control" type="text">
+                    <input name="type" th:field="*{type}" class="form-control" type="text">
                 </div>
             </div>
             <div class="form-group">    
                 <label class="col-sm-3 control-label">考试时间：</label>
                 <div class="col-sm-8">
                     <div class="input-group date">
-                        <input name="date" th:value="${#dates.format(examTestSheet.date, 'yyyy-MM-dd')}" class="form-control" placeholder="yyyy-MM-dd" type="text">
+                        <input name="testTime" th:value="${#dates.format(examTestSheet.testTime, 'yyyy-MM-dd')}" class="form-control" placeholder="yyyy-MM-dd" type="text">
                         <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                     </div>
                 </div>
@@ -57,7 +57,7 @@
             }
         }
 
-        $("input[name='date']").datetimepicker({
+        $("input[name='testTime']").datetimepicker({
             format: "yyyy-mm-dd",
             minView: "month",
             autoclose: true

@@ -11,7 +11,7 @@ import com.ruoyi.framework.web.domain.BaseEntity;
  * 考卷管理对象 exam_test_sheet
  * 
  * @author ruoyi
- * @date 2022-11-18
+ * @date 2022-11-21
  */
 public class ExamTestSheet extends BaseEntity
 {
@@ -20,18 +20,18 @@ public class ExamTestSheet extends BaseEntity
     /** 编号 */
     private String id;
 
-    /** 考卷名称 */
-    @Excel(name = "考卷名称")
+    /** 题目 */
+    @Excel(name = "题目")
     private String title;
 
     /** 面向对象 */
     @Excel(name = "面向对象")
-    private String object;
+    private String type;
 
     /** 考试时间 */
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    @Excel(name = "考试时间", width = 30, dateFormat = "yyyy-MM-dd")
-    private Date date;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @Excel(name = "考试时间", width = 30, dateFormat = "yyyy-MM-dd HH:mm:ss")
+    private Date testTime;
 
     /** 内容 */
     @Excel(name = "内容")
@@ -59,23 +59,23 @@ public class ExamTestSheet extends BaseEntity
     {
         return title;
     }
-    public void setObject(String object)
+    public void settype(String type)
     {
-        this.object = object;
+        this.type = type;
     }
 
-    public String getObject()
+    public String gettype()
     {
-        return object;
+        return type;
     }
-    public void setDate(Date date)
+    public void setTestTime(Date testTime)
     {
-        this.date = date;
+        this.testTime = testTime;
     }
 
-    public Date getDate()
+    public Date getTestTime()
     {
-        return date;
+        return testTime;
     }
     public void setContent(String content)
     {
@@ -101,8 +101,8 @@ public class ExamTestSheet extends BaseEntity
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
             .append("id", getId())
             .append("title", getTitle())
-            .append("object", getObject())
-            .append("date", getDate())
+            .append("type", gettype())
+            .append("testTime", getTestTime())
             .append("content", getContent())
             .append("hasDone", getHasDone())
             .toString();

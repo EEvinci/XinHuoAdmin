@@ -12,14 +12,18 @@
     border: none !important;
 }
 
+
+
 /** 蓝色主题 skin-blue **/
 .navbar, .skin-blue .navbar {
-	background-color: #3c8dbc
+	background-color: #3c8dbc;
+	/*background-color: #a94442;*/
 }
 
 .skin-blue .navbar-default .nav>li.selected>a,
 .skin-blue .navbar-default .nav>li.selected>a:focus {
 	background-color: #1890ff;
+	/*background-color: #FF9999;*/
     color: rgba(255,255,255,1);
 }
 
@@ -52,7 +56,8 @@
 }
 
 .skin-blue .navbar .sidebar-toggle:hover {
-	background-color: #367fa9
+	background-color: #367fa9;
+	/*background-color: #a94442;*/
 }
 
 @media ( max-width :767px) {
@@ -63,18 +68,21 @@
 		color: #fff
 	}
 	.skin-blue .navbar .dropdown-menu li a:hover {
-		background: #367fa9
+		background: #367fa9;
+		/*background-color: #a94442;*/
 	}
 }
 
 .skin-blue .logo {
 	background-color: #367fa9;
+	/*background-color: #d73a49;*/
 	color: #fff;
 	border-bottom: 0 solid transparent
 }
 
 .skin-blue .logo:hover {
-	background-color: #357ca5
+	background-color: #357ca5;
+	/*background-color: #FF9999;*/
 }
 
 .skin-blue li.user-header {

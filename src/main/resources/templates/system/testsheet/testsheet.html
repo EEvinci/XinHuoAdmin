@@ -11,12 +11,20 @@
                     <div class="select-list">
                         <ul>
                             <li>
-                                <label>考卷名称：</label>
+                                <label>题目：</label>
                                 <input type="text" name="title"/>
+                            </li>
+                            <li>
+                                <label>考试类型：</label>
+                                <input type="text" name="type"/>
                             </li>
                             <li>
                                 <label>内容：</label>
                                 <input type="text" name="content"/>
+                            </li>
+                            <li>
+                                <label>考试时间：</label>
+                                <input type="text" class="time-input" placeholder="请选择考试时间" name="date"/>
                             </li>
                             <li>
                                 <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
@@ -70,15 +78,19 @@
                 },
                 {
                     field: 'title',
-                    title: '考卷名称'
+                    title: '题目'
                 },
                 {
                     field: 'type',
-                    title: '面向对象'
+                    title: '考试类型'
                 },
                 {
                     field: 'content',
                     title: '内容'
+                },
+                {
+                    field: 'date',
+                    title: '考试时间'
                 },
                 {
                     title: '操作',
