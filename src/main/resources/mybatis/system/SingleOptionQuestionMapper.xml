@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.singlequestion.mapper.SingleOptionQuestionMapper">
+    
+    <resultMap type="SingleOptionQuestion" id="SingleOptionQuestionResult">
+        <result property="id"    column="id"    />
+        <result property="checked"    column="checked"    />
+        <result property="question"    column="question"    />
+        <result property="trueAnswer"    column="trueAnswer"    />
+        <result property="options"    column="options"    />
+    </resultMap>
+
+    <sql id="selectSingleOptionQuestionVo">
+        select id, checked, question, trueAnswer, options from single_option_question
+    </sql>
+
+    <select id="selectSingleOptionQuestionList" parameterType="SingleOptionQuestion" resultMap="SingleOptionQuestionResult">
+        <include refid="selectSingleOptionQuestionVo"/>
+        <where>  
+            <if test="checked != null "> and checked like concat('%', #{checked}, '%')</if>
+            <if test="question != null  and question != ''"> and question like concat('%', #{question}, '%')</if>
+            <if test="trueAnswer != null  and trueAnswer != ''"> and trueAnswer like concat('%', #{trueAnswer}, '%')</if>
+            <if test="options != null  and options != ''"> and options like concat('%', #{options}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectSingleOptionQuestionById" parameterType="String" resultMap="SingleOptionQuestionResult">
+        <include refid="selectSingleOptionQuestionVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertSingleOptionQuestion" parameterType="SingleOptionQuestion">
+        insert into single_option_question
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="checked != null">checked,</if>
+            <if test="question != null">question,</if>
+            <if test="trueAnswer != null">trueAnswer,</if>
+            <if test="options != null">options,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="checked != null">#{checked},</if>
+            <if test="question != null">#{question},</if>
+            <if test="trueAnswer != null">#{trueAnswer},</if>
+            <if test="options != null">#{options},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSingleOptionQuestion" parameterType="SingleOptionQuestion">
+        update single_option_question
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="checked != null">checked = #{checked},</if>
+            <if test="question != null">question = #{question},</if>
+            <if test="trueAnswer != null">trueAnswer = #{trueAnswer},</if>
+            <if test="options != null">options = #{options},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteSingleOptionQuestionById" parameterType="String">
+        delete from single_option_question where id = #{id}
+    </delete>
+
+    <delete id="deleteSingleOptionQuestionByIds" parameterType="String">
+        delete from single_option_question where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

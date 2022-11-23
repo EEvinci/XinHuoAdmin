@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.testsheet.mapper.PraticeTestSheetMapper">
+    
+    <resultMap type="PraticeTestSheet" id="PraticeTestSheetResult">
+        <result property="id"    column="id"    />
+        <result property="title"    column="title"    />
+        <result property="type"    column="type"    />
+        <result property="content"    column="content"    />
+    </resultMap>
+
+    <sql id="selectPraticeTestSheetVo">
+        select id, title, type, content from pratice_test_sheet
+    </sql>
+
+    <select id="selectPraticeTestSheetList" parameterType="PraticeTestSheet" resultMap="PraticeTestSheetResult">
+        <include refid="selectPraticeTestSheetVo"/>
+        <where>  
+            <if test="title != null  and title != ''"> and title = #{title}</if>
+            <if test="type != null  and type != ''"> and type = #{type}</if>
+            <if test="content != null  and content != ''"> and content = #{content}</if>
+        </where>
+    </select>
+    
+    <select id="selectPraticeTestSheetById" parameterType="String" resultMap="PraticeTestSheetResult">
+        <include refid="selectPraticeTestSheetVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertPraticeTestSheet" parameterType="PraticeTestSheet">
+        insert into pratice_test_sheet
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="title != null">title,</if>
+            <if test="type != null">type,</if>
+            <if test="content != null">content,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="title != null">#{title},</if>
+            <if test="type != null">#{type},</if>
+            <if test="content != null">#{content},</if>
+         </trim>
+    </insert>
+
+    <update id="updatePraticeTestSheet" parameterType="PraticeTestSheet">
+        update pratice_test_sheet
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="title != null">title = #{title},</if>
+            <if test="type != null">type = #{type},</if>
+            <if test="content != null">content = #{content},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deletePraticeTestSheetById" parameterType="String">
+        delete from pratice_test_sheet where id = #{id}
+    </delete>
+
+    <delete id="deletePraticeTestSheetByIds" parameterType="String">
+        delete from pratice_test_sheet where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

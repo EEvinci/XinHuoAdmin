@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.notification.mapper.MessageNotificationMapper">
+    
+    <resultMap type="MessageNotification" id="MessageNotificationResult">
+        <result property="id"    column="id"    />
+        <result property="content"    column="content"    />
+        <result property="time"    column="time"    />
+        <result property="stuNumber"    column="stuNumber"    />
+    </resultMap>
+
+    <sql id="selectMessageNotificationVo">
+        select id, content, time, stuNumber from message_notification
+    </sql>
+
+    <select id="selectMessageNotificationList" parameterType="MessageNotification" resultMap="MessageNotificationResult">
+        <include refid="selectMessageNotificationVo"/>
+        <where>  
+            <if test="content != null  and content != ''"> and content like concat('%', #{content}, '%')</if>
+            <if test="time != null "> and time = #{time}</if>
+            <if test="stuNumber != null  and stuNumber != ''"> and stuNumber like concat('%', #{stuNumber}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectMessageNotificationById" parameterType="String" resultMap="MessageNotificationResult">
+        <include refid="selectMessageNotificationVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertMessageNotification" parameterType="MessageNotification">
+        insert into message_notification
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="content != null">content,</if>
+            <if test="time != null">time,</if>
+            <if test="stuNumber != null">stuNumber,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="content != null">#{content},</if>
+            <if test="time != null">#{time},</if>
+            <if test="stuNumber != null">#{stuNumber},</if>
+         </trim>
+    </insert>
+
+    <update id="updateMessageNotification" parameterType="MessageNotification">
+        update message_notification
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="content != null">content = #{content},</if>
+            <if test="time != null">time = #{time},</if>
+            <if test="stuNumber != null">stuNumber = #{stuNumber},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteMessageNotificationById" parameterType="String">
+        delete from message_notification where id = #{id}
+    </delete>
+
+    <delete id="deleteMessageNotificationByIds" parameterType="String">
+        delete from message_notification where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

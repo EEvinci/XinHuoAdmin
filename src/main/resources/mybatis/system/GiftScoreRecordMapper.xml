@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.giftrecord.mapper.GiftScoreRecordMapper">
+    
+    <resultMap type="GiftScoreRecord" id="GiftScoreRecordResult">
+        <result property="id"    column="id"    />
+        <result property="stuNumber"    column="stuNumber"    />
+        <result property="action"    column="action"    />
+        <result property="time"    column="time"    />
+        <result property="value"    column="value"    />
+    </resultMap>
+
+    <sql id="selectGiftScoreRecordVo">
+        select id, stuNumber, action, time, value from gift_score_record
+    </sql>
+
+    <select id="selectGiftScoreRecordList" parameterType="GiftScoreRecord" resultMap="GiftScoreRecordResult">
+        <include refid="selectGiftScoreRecordVo"/>
+        <where>  
+            <if test="stuNumber != null  and stuNumber != ''"> and stuNumber like concat('%', #{stuNumber}, '%')</if>
+            <if test="action != null  and action != ''"> and action like concat('%', #{action}, '%')</if>
+            <if test="time != null "> and time like concat('%', #{time}, '%')</if>
+            <if test="value != null "> and value like concat('%', #{value}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectGiftScoreRecordById" parameterType="String" resultMap="GiftScoreRecordResult">
+        <include refid="selectGiftScoreRecordVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertGiftScoreRecord" parameterType="GiftScoreRecord">
+        insert into gift_score_record
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="stuNumber != null">stuNumber,</if>
+            <if test="action != null">action,</if>
+            <if test="time != null">time,</if>
+            <if test="value != null">value,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="stuNumber != null">#{stuNumber},</if>
+            <if test="action != null">#{action},</if>
+            <if test="time != null">#{time},</if>
+            <if test="value != null">#{value},</if>
+         </trim>
+    </insert>
+
+    <update id="updateGiftScoreRecord" parameterType="GiftScoreRecord">
+        update gift_score_record
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="stuNumber != null">stuNumber = #{stuNumber},</if>
+            <if test="action != null">action = #{action},</if>
+            <if test="time != null">time = #{time},</if>
+            <if test="value != null">value = #{value},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteGiftScoreRecordById" parameterType="String">
+        delete from gift_score_record where id = #{id}
+    </delete>
+
+    <delete id="deleteGiftScoreRecordByIds" parameterType="String">
+        delete from gift_score_record where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

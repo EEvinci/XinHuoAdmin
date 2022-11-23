@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.student.mapper.StudentMapper">
+    
+    <resultMap type="Student" id="StudentResult">
+        <result property="name"    column="name"    />
+        <result property="number"    column="number"    />
+        <result property="giftScore"    column="giftScore"    />
+        <result property="organization"    column="organization"    />
+        <result property="phoneNumber"    column="phoneNumber"    />
+        <result property="identity"    column="identity"    />
+    </resultMap>
+
+    <sql id="selectStudentVo">
+        select name, number, giftScore, organization, phoneNumber, identity from student
+    </sql>
+
+    <select id="selectStudentList" parameterType="Student" resultMap="StudentResult">
+        <include refid="selectStudentVo"/>
+        <where>  
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="giftScore != null  and giftScore != ''"> and giftScore = #{giftScore}</if>
+            <if test="organization != null  and organization != ''"> and organization like concat('%', #{organization}, '%')</if>
+            <if test="phoneNumber != null  and phoneNumber != ''"> and phoneNumber like concat('%', #{phoneNumber}, '%')</if>
+            <if test="identity != null  and identity != ''"> and identity like concat('%', #{identity}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectStudentByNumber" parameterType="String" resultMap="StudentResult">
+        <include refid="selectStudentVo"/>
+        where number = #{number}
+    </select>
+        
+    <insert id="insertStudent" parameterType="Student">
+        insert into student
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null">name,</if>
+            <if test="number != null">number,</if>
+            <if test="giftScore != null">giftScore,</if>
+            <if test="organization != null">organization,</if>
+            <if test="phoneNumber != null">phoneNumber,</if>
+            <if test="identity != null">identity,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null">#{name},</if>
+            <if test="number != null">#{number},</if>
+            <if test="giftScore != null">#{giftScore},</if>
+            <if test="organization != null">#{organization},</if>
+            <if test="phoneNumber != null">#{phoneNumber},</if>
+            <if test="identity != null">#{identity},</if>
+         </trim>
+    </insert>
+
+    <update id="updateStudent" parameterType="Student">
+        update student
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null">name = #{name},</if>
+            <if test="giftScore != null">giftScore = #{giftScore},</if>
+            <if test="organization != null">organization = #{organization},</if>
+            <if test="phoneNumber != null">phoneNumber = #{phoneNumber},</if>
+            <if test="identity != null">identity = #{identity},</if>
+        </trim>
+        where number = #{number}
+    </update>
+
+    <delete id="deleteStudentByNumber" parameterType="String">
+        delete from student where number = #{number}
+    </delete>
+
+    <delete id="deleteStudentByNumbers" parameterType="String">
+        delete from student where number in 
+        <foreach item="number" collection="array" open="(" separator="," close=")">
+            #{number}
+        </foreach>
+    </delete>
+
+</mapper>

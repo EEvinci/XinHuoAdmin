@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.record.mapper.OrganizationMeetingRecordMapper">
+    
+    <resultMap type="OrganizationMeetingRecord" id="OrganizationMeetingRecordResult">
+        <result property="id"    column="id"    />
+        <result property="type"    column="type"    />
+        <result property="participants"    column="participants"    />
+        <result property="time"    column="time"    />
+        <result property="title"    column="title"    />
+    </resultMap>
+
+    <sql id="selectOrganizationMeetingRecordVo">
+        select id, type, participants, time, title from organization_meeting_record
+    </sql>
+
+    <select id="selectOrganizationMeetingRecordList" parameterType="OrganizationMeetingRecord" resultMap="OrganizationMeetingRecordResult">
+        <include refid="selectOrganizationMeetingRecordVo"/>
+        <where>  
+            <if test="type != null  and type != ''"> and type like concat('%', #{type}, '%')</if>
+            <if test="participants != null  and participants != ''"> and participants like concat('%', #{participants}, '%')</if>
+            <if test="time != null "> and time = #{time}</if>
+            <if test="title != null  and title != ''"> and title like concat('%', #{title}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectOrganizationMeetingRecordById" parameterType="String" resultMap="OrganizationMeetingRecordResult">
+        <include refid="selectOrganizationMeetingRecordVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertOrganizationMeetingRecord" parameterType="OrganizationMeetingRecord">
+        insert into organization_meeting_record
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="type != null">type,</if>
+            <if test="participants != null">participants,</if>
+            <if test="time != null">time,</if>
+            <if test="title != null">title,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="type != null">#{type},</if>
+            <if test="participants != null">#{participants},</if>
+            <if test="time != null">#{time},</if>
+            <if test="title != null">#{title},</if>
+         </trim>
+    </insert>
+
+    <update id="updateOrganizationMeetingRecord" parameterType="OrganizationMeetingRecord">
+        update organization_meeting_record
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="type != null">type = #{type},</if>
+            <if test="participants != null">participants = #{participants},</if>
+            <if test="time != null">time = #{time},</if>
+            <if test="title != null">title = #{title},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteOrganizationMeetingRecordById" parameterType="String">
+        delete from organization_meeting_record where id = #{id}
+    </delete>
+
+    <delete id="deleteOrganizationMeetingRecordByIds" parameterType="String">
+        delete from organization_meeting_record where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

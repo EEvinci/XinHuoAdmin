@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.news.mapper.OrganizationNewsMapper">
+    
+    <resultMap type="OrganizationNews" id="OrganizationNewsResult">
+        <result property="id"    column="id"    />
+        <result property="time"    column="time"    />
+        <result property="title"    column="title"    />
+        <result property="author"    column="author"    />
+    </resultMap>
+
+    <sql id="selectOrganizationNewsVo">
+        select id, time, title, author from organization_news
+    </sql>
+
+    <select id="selectOrganizationNewsList" parameterType="OrganizationNews" resultMap="OrganizationNewsResult">
+        <include refid="selectOrganizationNewsVo"/>
+        <where>  
+            <if test="time != null "> and time = #{time}</if>
+            <if test="title != null  and title != ''"> and title = #{title}</if>
+            <if test="author != null  and author != ''"> and author = #{author}</if>
+        </where>
+    </select>
+    
+    <select id="selectOrganizationNewsById" parameterType="String" resultMap="OrganizationNewsResult">
+        <include refid="selectOrganizationNewsVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertOrganizationNews" parameterType="OrganizationNews">
+        insert into organization_news
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="time != null">time,</if>
+            <if test="title != null">title,</if>
+            <if test="author != null">author,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="time != null">#{time},</if>
+            <if test="title != null">#{title},</if>
+            <if test="author != null">#{author},</if>
+         </trim>
+    </insert>
+
+    <update id="updateOrganizationNews" parameterType="OrganizationNews">
+        update organization_news
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="time != null">time = #{time},</if>
+            <if test="title != null">title = #{title},</if>
+            <if test="author != null">author = #{author},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteOrganizationNewsById" parameterType="String">
+        delete from organization_news where id = #{id}
+    </delete>
+
+    <delete id="deleteOrganizationNewsByIds" parameterType="String">
+        delete from organization_news where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

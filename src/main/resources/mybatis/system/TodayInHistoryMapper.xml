@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.history.mapper.TodayInHistoryMapper">
+    
+    <resultMap type="TodayInHistory" id="TodayInHistoryResult">
+        <result property="id"    column="id"    />
+        <result property="date"    column="date"    />
+        <result property="content"    column="content"    />
+    </resultMap>
+
+    <sql id="selectTodayInHistoryVo">
+        select id, date, content from today_in_history
+    </sql>
+
+    <select id="selectTodayInHistoryList" parameterType="TodayInHistory" resultMap="TodayInHistoryResult">
+        <include refid="selectTodayInHistoryVo"/>
+        <where>  
+            <if test="date != null  and date != ''"> and date = #{date}</if>
+            <if test="content != null  and content != ''"> and content = #{content}</if>
+        </where>
+    </select>
+    
+    <select id="selectTodayInHistoryById" parameterType="String" resultMap="TodayInHistoryResult">
+        <include refid="selectTodayInHistoryVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertTodayInHistory" parameterType="TodayInHistory">
+        insert into today_in_history
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="date != null">date,</if>
+            <if test="content != null">content,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="date != null">#{date},</if>
+            <if test="content != null">#{content},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTodayInHistory" parameterType="TodayInHistory">
+        update today_in_history
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="date != null">date = #{date},</if>
+            <if test="content != null">content = #{content},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTodayInHistoryById" parameterType="String">
+        delete from today_in_history where id = #{id}
+    </delete>
+
+    <delete id="deleteTodayInHistoryByIds" parameterType="String">
+        delete from today_in_history where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

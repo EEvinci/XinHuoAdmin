@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.signrecordmy.mapper.SignInRecordMyMapper">
+    
+    <resultMap type="SignInRecordMy" id="SignInRecordMyResult">
+        <result property="id"    column="id"    />
+        <result property="stuNumber"    column="stuNumber"    />
+        <result property="date"    column="date"    />
+    </resultMap>
+
+    <sql id="selectSignInRecordMyVo">
+        select id, stuNumber, date from sign_in_record
+    </sql>
+
+    <select id="selectSignInRecordMyList" parameterType="SignInRecordMy" resultMap="SignInRecordMyResult">
+        <include refid="selectSignInRecordMyVo"/>
+        <where>  
+            <if test="stuNumber != null  and stuNumber != ''"> and stuNumber like concat('%', #{stuNumber}, '%')</if>
+            <if test="date != null "> and date = #{date}</if>
+        </where>
+    </select>
+    
+    <select id="selectSignInRecordMyById" parameterType="String" resultMap="SignInRecordMyResult">
+        <include refid="selectSignInRecordMyVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertSignInRecordMy" parameterType="SignInRecordMy">
+        insert into sign_in_record
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="stuNumber != null">stuNumber,</if>
+            <if test="date != null">date,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="stuNumber != null">#{stuNumber},</if>
+            <if test="date != null">#{date},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSignInRecordMy" parameterType="SignInRecordMy">
+        update sign_in_record
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="stuNumber != null">stuNumber = #{stuNumber},</if>
+            <if test="date != null">date = #{date},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteSignInRecordMyById" parameterType="String">
+        delete from sign_in_record where id = #{id}
+    </delete>
+
+    <delete id="deleteSignInRecordMyByIds" parameterType="String">
+        delete from sign_in_record where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.examsheet.mapper.ExamTestSheetMapper">
+    
+    <resultMap type="ExamTestSheet" id="ExamTestSheetResult">
+        <result property="id"    column="id"    />
+        <result property="title"    column="title"    />
+        <result property="object"    column="object"    />
+        <result property="date"    column="date"    />
+        <result property="content"    column="content"    />
+        <result property="hasDone"    column="hasDone"    />
+    </resultMap>
+
+    <sql id="selectExamTestSheetVo">
+        select id, title, object, date, content, hasDone from exam_test_sheet
+    </sql>
+
+    <select id="selectExamTestSheetList" parameterType="ExamTestSheet" resultMap="ExamTestSheetResult">
+        <include refid="selectExamTestSheetVo"/>
+        <where>  
+            <if test="title != null  and title != ''"> and title like concat('%', #{title}, '%')</if>
+            <if test="object != null  and object != ''"> and object like concat('%', #{object}, '%')</if>
+            <if test="date != null "> and date like concat('%', #{date}, '%')</if>
+            <if test="content != null  and content != ''"> and content like concat('%', #{content}, '%')</if>
+            <if test="hasDone != null "> and hasDone like concat('%', #{hasDone}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectExamTestSheetById" parameterType="String" resultMap="ExamTestSheetResult">
+        <include refid="selectExamTestSheetVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertExamTestSheet" parameterType="ExamTestSheet">
+        insert into exam_test_sheet
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="title != null">title,</if>
+            <if test="object != null">object,</if>
+            <if test="date != null">date,</if>
+            <if test="content != null">content,</if>
+            <if test="hasDone != null">hasDone,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="title != null">#{title},</if>
+            <if test="object != null">#{object},</if>
+            <if test="date != null">#{date},</if>
+            <if test="content != null">#{content},</if>
+            <if test="hasDone != null">#{hasDone},</if>
+         </trim>
+    </insert>
+
+    <update id="updateExamTestSheet" parameterType="ExamTestSheet">
+        update exam_test_sheet
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="title != null">title = #{title},</if>
+            <if test="object != null">object = #{object},</if>
+            <if test="date != null">date = #{date},</if>
+            <if test="content != null">content = #{content},</if>
+            <if test="hasDone != null">hasDone = #{hasDone},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteExamTestSheetById" parameterType="String">
+        delete from exam_test_sheet where id = #{id}
+    </delete>
+
+    <delete id="deleteExamTestSheetByIds" parameterType="String">
+        delete from exam_test_sheet where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.fillinquestion.mapper.FillInQuestionMapper">
+    
+    <resultMap type="FillInQuestion" id="FillInQuestionResult">
+        <result property="id"    column="id"    />
+        <result property="content"    column="content"    />
+        <result property="trueAnswer"    column="trueAnswer"    />
+    </resultMap>
+
+    <sql id="selectFillInQuestionVo">
+        select id, content, trueAnswer from fill_in_question
+    </sql>
+
+    <select id="selectFillInQuestionList" parameterType="FillInQuestion" resultMap="FillInQuestionResult">
+        <include refid="selectFillInQuestionVo"/>
+        <where>  
+            <if test="content != null  and content != ''"> and content like concat('%', #{content}, '%')</if>
+            <if test="trueAnswer != null  and trueAnswer != ''"> and trueAnswer like concat('%', #{trueAnswer}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectFillInQuestionById" parameterType="String" resultMap="FillInQuestionResult">
+        <include refid="selectFillInQuestionVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertFillInQuestion" parameterType="FillInQuestion">
+        insert into fill_in_question
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="content != null">content,</if>
+            <if test="trueAnswer != null">trueAnswer,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="content != null">#{content},</if>
+            <if test="trueAnswer != null">#{trueAnswer},</if>
+         </trim>
+    </insert>
+
+    <update id="updateFillInQuestion" parameterType="FillInQuestion">
+        update fill_in_question
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="content != null">content = #{content},</if>
+            <if test="trueAnswer != null">trueAnswer = #{trueAnswer},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteFillInQuestionById" parameterType="String">
+        delete from fill_in_question where id = #{id}
+    </delete>
+
+    <delete id="deleteFillInQuestionByIds" parameterType="String">
+        delete from fill_in_question where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

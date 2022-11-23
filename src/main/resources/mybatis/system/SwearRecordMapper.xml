@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.swear.mapper.SwearRecordMapper">
+    
+    <resultMap type="SwearRecord" id="SwearRecordResult">
+        <result property="id"    column="id"    />
+        <result property="stuNumber"    column="stuNumber"    />
+        <result property="swearCount"    column="swearCount"    />
+    </resultMap>
+
+    <sql id="selectSwearRecordVo">
+        select id, stuNumber, swearCount from swear_record
+    </sql>
+
+    <select id="selectSwearRecordList" parameterType="SwearRecord" resultMap="SwearRecordResult">
+        <include refid="selectSwearRecordVo"/>
+        <where>  
+            <if test="stuNumber != null  and stuNumber != ''"> and stuNumber like concat('%', #{stuNumber}, '%')</if>
+            <if test="swearCount != null "> and swearCount = #{swearCount}</if>
+        </where>
+    </select>
+    
+    <select id="selectSwearRecordById" parameterType="String" resultMap="SwearRecordResult">
+        <include refid="selectSwearRecordVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertSwearRecord" parameterType="SwearRecord">
+        insert into swear_record
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="stuNumber != null">stuNumber,</if>
+            <if test="swearCount != null">swearCount,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="stuNumber != null">#{stuNumber},</if>
+            <if test="swearCount != null">#{swearCount},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSwearRecord" parameterType="SwearRecord">
+        update swear_record
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="stuNumber != null">stuNumber = #{stuNumber},</if>
+            <if test="swearCount != null">swearCount = #{swearCount},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteSwearRecordById" parameterType="String">
+        delete from swear_record where id = #{id}
+    </delete>
+
+    <delete id="deleteSwearRecordByIds" parameterType="String">
+        delete from swear_record where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

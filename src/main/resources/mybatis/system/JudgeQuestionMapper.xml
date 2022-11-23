@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.judgequestion.mapper.JudgeQuestionMapper">
+    
+    <resultMap type="JudgeQuestion" id="JudgeQuestionResult">
+        <result property="id"    column="id"    />
+        <result property="content"    column="content"    />
+        <result property="trueAnswer"    column="trueAnswer"    />
+        <result property="checked"    column="checked"    />
+        <result property="options"    column="options"    />
+    </resultMap>
+
+    <sql id="selectJudgeQuestionVo">
+        select id, content, trueAnswer, checked, options from judge_question
+    </sql>
+
+    <select id="selectJudgeQuestionList" parameterType="JudgeQuestion" resultMap="JudgeQuestionResult">
+        <include refid="selectJudgeQuestionVo"/>
+        <where>  
+            <if test="content != null  and content != ''"> and content like concat('%', #{content}, '%')</if>
+            <if test="trueAnswer != null  and trueAnswer != ''"> and trueAnswer like concat('%', #{trueAnswer}, '%')</if>
+            <if test="checked != null "> and checked like concat('%', #{checked}, '%')</if>
+            <if test="options != null  and options != ''"> and options like concat('%', #{options}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectJudgeQuestionById" parameterType="String" resultMap="JudgeQuestionResult">
+        <include refid="selectJudgeQuestionVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertJudgeQuestion" parameterType="JudgeQuestion">
+        insert into judge_question
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="content != null">content,</if>
+            <if test="trueAnswer != null">trueAnswer,</if>
+            <if test="checked != null">checked,</if>
+            <if test="options != null">options,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="content != null">#{content},</if>
+            <if test="trueAnswer != null">#{trueAnswer},</if>
+            <if test="checked != null">#{checked},</if>
+            <if test="options != null">#{options},</if>
+         </trim>
+    </insert>
+
+    <update id="updateJudgeQuestion" parameterType="JudgeQuestion">
+        update judge_question
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="content != null">content = #{content},</if>
+            <if test="trueAnswer != null">trueAnswer = #{trueAnswer},</if>
+            <if test="checked != null">checked = #{checked},</if>
+            <if test="options != null">options = #{options},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteJudgeQuestionById" parameterType="String">
+        delete from judge_question where id = #{id}
+    </delete>
+
+    <delete id="deleteJudgeQuestionByIds" parameterType="String">
+        delete from judge_question where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

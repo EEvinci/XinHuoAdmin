@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.todo.mapper.ToDoMapper">
+    
+    <resultMap type="ToDo" id="ToDoResult">
+        <result property="id"    column="id"    />
+        <result property="studentNumber"    column="studentNumber"    />
+        <result property="content"    column="content"    />
+    </resultMap>
+
+    <sql id="selectToDoVo">
+        select id, studentNumber, content from to_do
+    </sql>
+
+    <select id="selectToDoList" parameterType="ToDo" resultMap="ToDoResult">
+        <include refid="selectToDoVo"/>
+        <where>  
+            <if test="studentNumber != null  and studentNumber != ''"> and studentNumber = #{studentNumber}</if>
+            <if test="content != null  and content != ''"> and content = #{content}</if>
+        </where>
+    </select>
+    
+    <select id="selectToDoById" parameterType="String" resultMap="ToDoResult">
+        <include refid="selectToDoVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertToDo" parameterType="ToDo">
+        insert into to_do
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="studentNumber != null">studentNumber,</if>
+            <if test="content != null">content,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="studentNumber != null">#{studentNumber},</if>
+            <if test="content != null">#{content},</if>
+         </trim>
+    </insert>
+
+    <update id="updateToDo" parameterType="ToDo">
+        update to_do
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="studentNumber != null">studentNumber = #{studentNumber},</if>
+            <if test="content != null">content = #{content},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteToDoById" parameterType="String">
+        delete from to_do where id = #{id}
+    </delete>
+
+    <delete id="deleteToDoByIds" parameterType="String">
+        delete from to_do where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>
