@@ -8,9 +8,9 @@
     <version>4.7.5</version>
     <packaging>jar</packaging>
 
-<!--    <name>ruoyi</name>-->
-<!--    <url>http://www.ruoyi.vip</url>-->
-<!--    <description>若依管理系统</description>-->
+    <name>ruoyi</name>
+    <url>http://www.ruoyi.vip</url>
+    <description>若依管理系统</description>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -22,11 +22,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-
-        <java.version>1.17</java.version>
-        <maven.compiler.source>${java.version}}</maven.compiler.source>
-        <maven.compiler.target>${java.version}}</maven.compiler.target>
-
+        <java.version>1.8</java.version>
         <maven-jar-plugin.version>3.1.1</maven-jar-plugin.version>
         <shiro.version>1.10.0</shiro.version>
         <thymeleaf.extras.shiro.version>2.1.0</thymeleaf.extras.shiro.version>
