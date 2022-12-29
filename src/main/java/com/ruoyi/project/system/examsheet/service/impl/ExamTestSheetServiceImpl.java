@@ -1,6 +1,8 @@
 package com.ruoyi.project.system.examsheet.service.impl;
 
 import java.util.List;
+
+import com.ruoyi.project.system.singlequestion.domain.SingleOptionQuestion;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.project.system.examsheet.mapper.ExamTestSheetMapper;
@@ -91,4 +93,18 @@ public class ExamTestSheetServiceImpl implements IExamTestSheetService
     {
         return examTestSheetMapper.deleteExamTestSheetById(id);
     }
+
+
+
+
+    /**
+     * 生成试卷
+     */
+    /**
+     * 开始巡检
+     *
+     * @param inspectionNewDemo 开始巡检
+     * @return 结果
+     */
+
 }

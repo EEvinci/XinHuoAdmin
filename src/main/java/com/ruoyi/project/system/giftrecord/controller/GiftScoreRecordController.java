@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.ruoyi.framework.aspectj.lang.annotation.Log;
 import com.ruoyi.framework.aspectj.lang.enums.BusinessType;
+
 import com.ruoyi.project.system.giftrecord.domain.GiftScoreRecord;
 import com.ruoyi.project.system.giftrecord.service.IGiftScoreRecordService;
+
 import com.ruoyi.framework.web.controller.BaseController;
 import com.ruoyi.framework.web.domain.AjaxResult;
 import com.ruoyi.common.utils.poi.ExcelUtil;
@@ -41,6 +43,7 @@ public class GiftScoreRecordController extends BaseController
         return prefix + "/giftrecord";
     }
 
+
     /**
      * 查询得分管理列表
      */
@@ -53,6 +56,7 @@ public class GiftScoreRecordController extends BaseController
         List<GiftScoreRecord> list = giftScoreRecordService.selectGiftScoreRecordList(giftScoreRecord);
         return getDataTable(list);
     }
+
 
     /**
      * 导出得分管理列表
@@ -68,6 +72,7 @@ public class GiftScoreRecordController extends BaseController
         return util.exportExcel(list, "得分管理数据");
     }
 
+
     /**
      * 新增得分管理
      */
@@ -76,6 +81,7 @@ public class GiftScoreRecordController extends BaseController
     {
         return prefix + "/add";
     }
+
 
     /**
      * 新增保存得分管理
@@ -89,6 +95,8 @@ public class GiftScoreRecordController extends BaseController
         return toAjax(giftScoreRecordService.insertGiftScoreRecord(giftScoreRecord));
     }
 
+
+
     /**
      * 修改得分管理
      */
@@ -101,6 +109,8 @@ public class GiftScoreRecordController extends BaseController
         return prefix + "/edit";
     }
 
+
+
     /**
      * 修改保存得分管理
      */
@@ -112,6 +122,7 @@ public class GiftScoreRecordController extends BaseController
     {
         return toAjax(giftScoreRecordService.updateGiftScoreRecord(giftScoreRecord));
     }
+
 
     /**
      * 删除得分管理

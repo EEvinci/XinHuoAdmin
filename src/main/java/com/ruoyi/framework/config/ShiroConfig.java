@@ -292,6 +292,12 @@ public class ShiroConfig
         filterChainDefinitionMap.put("/logout", "logout");
         // 不需要拦截的访问
         filterChainDefinitionMap.put("/login", "anon,captchaValidate");
+
+
+        // 自定义访问(不需要拦截)
+        filterChainDefinitionMap.put("/login/dddd", "anon,captchaValidate");
+
+
         // 注册相关
         filterChainDefinitionMap.put("/register", "anon,captchaValidate");
         // 系统权限列表

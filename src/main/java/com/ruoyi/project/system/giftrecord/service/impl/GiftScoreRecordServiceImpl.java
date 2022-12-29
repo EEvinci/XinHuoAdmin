@@ -3,9 +3,11 @@ package com.ruoyi.project.system.giftrecord.service.impl;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import com.ruoyi.project.system.giftrecord.mapper.GiftScoreRecordMapper;
 import com.ruoyi.project.system.giftrecord.domain.GiftScoreRecord;
 import com.ruoyi.project.system.giftrecord.service.IGiftScoreRecordService;
+
 import com.ruoyi.common.utils.text.Convert;
 
 /**

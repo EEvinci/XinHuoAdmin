@@ -2,6 +2,7 @@ package com.ruoyi.project.system.examsheet.service;
 
 import java.util.List;
 import com.ruoyi.project.system.examsheet.domain.ExamTestSheet;
+import com.ruoyi.project.system.singlequestion.domain.SingleOptionQuestion;
 
 /**
  * 考卷管理Service接口
@@ -58,4 +59,6 @@ public interface IExamTestSheetService
      * @return 结果
      */
     public int deleteExamTestSheetById(String id);
+
+
 }

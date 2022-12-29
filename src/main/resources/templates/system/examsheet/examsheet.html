@@ -52,6 +52,12 @@
                 <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="system:examsheet:export">
                     <i class="fa fa-download"></i> 导出
                 </a>
+<!--                自动生成试卷并显示在网页-->
+                <a class="btn btn-warning" onclick="newInspection()">
+                    <i class="fa fa-list"></i> 生成试卷
+                </a>
+
+
             </div>
             <div class="col-sm-12 select-table table-striped">
                 <table id="bootstrap-table"></table>
@@ -86,7 +92,8 @@
                 },
                 {
                     field: 'type',
-                    title: '面向对象'
+                    title: '面向对象',
+                    sortable:true
                 },
                 {
                     field: 'testTime',
@@ -99,7 +106,8 @@
                 },
                 {
                     field: 'hasDone',
-                    title: '使用/未使用'
+                    title: '使用/未使用',
+                    sortable: true
                 },
                 {
                     title: '操作',
@@ -114,6 +122,9 @@
             };
             $.table.init(options);
         });
+
+        /* 开始生成试卷 */
+
     </script>
 </body>
 </html>

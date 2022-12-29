@@ -3,6 +3,7 @@
 <head>
     <th:block th:include="include :: header('新增考卷管理')" />
     <th:block th:include="include :: datetimepicker-css" />
+
 </head>
 <body class="white-bg">
     <div class="wrapper wrapper-content animated fadeInRight ibox-content">
@@ -40,15 +41,48 @@
                     <input name="hasDone" class="form-control" type="text">
                 </div>
             </div>
+
         </form>
+        <button onclick="getSheet()" style="background-color: #FF9999;border-color: red;margin-left: 10%;float: left;margin-top: 1%">随机生成试卷</button>
+<!--        <textarea style="margin-left: 4.5%;width: 63%;height: 300px"></textarea>-->
     </div>
     <th:block th:include="include :: footer" />
     <th:block th:include="include :: datetimepicker-js" />
     <script th:inline="javascript">
+
+        function getSheet(){
+
+            //1.声明异步请求对象：
+            var xmlHttp = null;
+            if (window.ActiveXObject) {
+                // IE6, IE5 浏览器执行代码
+                xmlHttp = new ActiveXObject("Microsoft.XMLHTTP");
+            } else if (window.XMLHttpRequest) {
+                // IE7+, Firefox, Chrome, Opera, Safari 浏览器执行代码
+                xmlHttp = new XMLHttpRequest();
+            }
+            //2.如果实例化成功，就调用open（）方法：
+            if (xmlHttp != null) {
+                xmlHttp.open("get", "/file/1.txt", true);
+                xmlHttp.send();
+                xmlHttp.onreadystatechange = doResult; //设置回调函数
+            }
+            function doResult() {
+                if (xmlHttp.readyState == 4) { //4表示执行完成
+                    if (xmlHttp.status == 200) { //200表示执行成功
+                        alert(xmlHttp.responseText)
+                        // document.getElementById("resText").innerHTML = xmlHttp.responseText;
+                    }
+                }
+            }
+
+        }
+
         var prefix = ctx + "system/examsheet"
         $("#form-examsheet-add").validate({
             focusCleanup: true
         });
+
 
         function submitHandler() {
             if ($.validate.form()) {
@@ -61,6 +95,14 @@
             minView: "month",
             autoclose: true
         });
+
+
+
+
+
     </script>
+
+
+
 </body>
 </html>

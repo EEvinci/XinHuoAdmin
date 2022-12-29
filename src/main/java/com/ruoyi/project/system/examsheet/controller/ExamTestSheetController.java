@@ -1,7 +1,11 @@
 package com.ruoyi.project.system.examsheet.controller;
 
+import java.io.*;
 import java.util.List;
+
+import com.ruoyi.project.system.singlequestion.domain.SingleOptionQuestion;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.python.util.PythonInterpreter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -74,8 +78,62 @@ public class ExamTestSheetController extends BaseController
     @GetMapping("/add")
     public String add()
     {
+        /**
+         * 复制一个添加按钮，把其他删了，留下一个textarea，然后点击即可生成试卷，复制后保存。
+         */
+        PythonInterpreter interpreter = new PythonInterpreter();
+        //选择执行的的Python语句
+        try {
+            String[] args1 = new String[] { "python", "./src/main/resources/createExamSheet.py"};
+            Process proc = Runtime.getRuntime().exec(args1);// 执行py文件
+            BufferedReader in = new BufferedReader(new InputStreamReader(proc.getInputStream(),"gbk"));
+            String line = in.readLine();
+
+            String filePath = "./src/main/resources/1.txt";
+            FileWriter fw = null;
+            try
+            {
+                File file = new File(filePath);
+                if (!file.exists())
+                {
+                    file.createNewFile();
+                }
+                fw = new FileWriter(filePath);
+                BufferedWriter bw=new BufferedWriter(fw);
+                bw.write(line);
+                bw.close();
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+            finally
+            {
+                try
+                {
+                    fw.close();
+                }
+                catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
+
+            }
+
+            in.close();
+            proc.waitFor();
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
         return prefix + "/add";
     }
+
+    /**
+     * 新增自己的add方法
+     */
+
+
+
 
     /**
      * 新增保存考卷管理
@@ -101,6 +159,8 @@ public class ExamTestSheetController extends BaseController
         return prefix + "/edit";
     }
 
+
+
     /**
      * 修改保存考卷管理
      */
@@ -124,4 +184,9 @@ public class ExamTestSheetController extends BaseController
     {
         return toAjax(examTestSheetService.deleteExamTestSheetByIds(ids));
     }
+
+    /**
+     * 自动生成试卷
+     */
+
 }
